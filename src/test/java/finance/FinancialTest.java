@@ -25,7 +25,7 @@ public class FinancialTest {
 
     @After
     public void teardown() {
-        System.out.println("Libération des resources");
+        LOG.info("Libération des resources");
         financial = null;
         doubleList = null;
     }
@@ -53,11 +53,13 @@ public class FinancialTest {
 
     @Test(expected = RateUnavailableException.class)
     public void calculateChangeWithException() throws RateUnavailableException {
+        LOG.info("Test calculate change with exception");
         financial.calculateChange("CHF", "JPY", 1000D);
     }
 
     @Test(timeout = 5000)
     public void getAvailableCurrencies() {
+        LOG.info("Test get available currencies");
         Assert.assertEquals(3, financial.getAvailableCurrencies().size());
     }
 }

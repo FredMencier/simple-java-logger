@@ -48,6 +48,7 @@ public class Financial implements FinancialInterface {
         for (Double dbl : doubleList) {
             sum = sum + dbl;
         }
+        LOG.info("Calculate Sum with %s = %s".formatted(doubleList, sum));
         return sum;
     }
 
@@ -66,7 +67,9 @@ public class Financial implements FinancialInterface {
             LOG.warn(msg);
             throw new RateUnavailableException(msg);
         }
-        return amount * rate;
+        double change = amount * rate;
+        LOG.info("Calculate change for %s/%s with amount %s = %s".formatted(fromCurrency, toCurrency, amount, change));
+        return change;
     }
 
     /**
@@ -74,9 +77,12 @@ public class Financial implements FinancialInterface {
      * @return
      */
     public List<String> getAvailableCurrencies() {
+        long in = System.currentTimeMillis();
         try {
             Thread.sleep(4000);
-            return List.of("CHF", "EUR", "USD");
+            List<String> currencies = List.of("CHF", "EUR", "USD");
+            LOG.info("Return available currencies in : %s ms".formatted (System.currentTimeMillis() - in));
+            return currencies;
         } catch (InterruptedException e) {
             LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
